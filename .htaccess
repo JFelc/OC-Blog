@@ -1,0 +1,4 @@
+RewriteEngine On
+RewriteBase /OC-Blog/
+RewriteCond %{REQUEST_FILENAME} !\.(css|js|gif|jpg|png|svg|woff|woff2|ttf|eot|map|pdf)$
+RewriteRule ^.*$ index.php [QSA,L]
