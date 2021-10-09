@@ -17,6 +17,7 @@ class Post extends Database
         $query = $db->prepare('SELECT * FROM post WHERE idPost =:idPost', $values);
         return $query;
     }
+
     function selectPostsHome(){
         $db = new Database();
         $query = $db->prepare('SELECT * FROM post ORDER BY date DESC LIMIT 3');
@@ -35,6 +36,7 @@ class Post extends Database
         $query = $db->prepare('UPDATE post set status = 1 WHERE idPost =:idPost', $values);
         return $query;
     }
+
     function addPost($vals = array())
     {
         $db = new Database();
@@ -63,6 +65,7 @@ class Post extends Database
         return true;
     }
 
+
     function addCategory($name){
         $db = new Database();
         $values[':name'] = $name;
@@ -75,6 +78,7 @@ class Post extends Database
         $query = $db->prepare('SELECT nom FROM categorie');
         return $query;
     }
+
     
     function clean($data){
         $return = htmlspecialchars($data);
