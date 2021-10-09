@@ -1,16 +1,21 @@
 <?php
+
 require_once "./model/Post.php";
 require_once "./model/User.php";
 require_once "./model/Comments.php";
 
+
 class Controller
 {
     public $rewritebase = "/OC-Blog/";
+
     public function __construct($url = "", $qs = "")
+
     {
 
         $url = explode('/', $url);
         $qs = explode('&', $qs);
+
 
         switch ($url[2]) {
             case '':
@@ -34,13 +39,16 @@ class Controller
             case 'profile':
                 $this->profile($url);
                 break;
+
             default:
                 $this->notFound();
                 break;
         }
     }
 
+
     public function home()
+
     {
         $post = new Post();
         $res = $post->selectPostsHome();
@@ -48,6 +56,7 @@ class Controller
         require_once "./view/home.php";
         require_once "./includes/footer.php";
     }
+
 
     public function profile($url)
     {
@@ -189,4 +198,6 @@ class Controller
         require_once "./view/post.php";
         require_once "./includes/footer.php";
     }
+
+
 }
