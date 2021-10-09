@@ -1,14 +1,16 @@
 <?php
+require_once "./model/Post.php";
+require_once "./model/User.php";
+require_once "./model/Comments.php";
 
 class Controller
 {
     public $rewritebase = "/OC-Blog/";
-    function __construct($url = "", $qs = "")
+    public function __construct($url = "", $qs = "")
     {
 
         $url = explode('/', $url);
         $qs = explode('&', $qs);
-
 
         switch ($url[2]) {
             case '':
@@ -17,13 +19,28 @@ class Controller
             case 'accueil':
                 $this->home();
                 break;
+            case 'admin':
+                $this->admin();
+                break;
+            case 'posts':
+                $this->posts($url);
+                break;
+            case 'login':
+                $this->login($url);
+                break;
+            case 'post':
+                $this->post($url);
+                break;
+            case 'profile':
+                $this->profile($url);
+                break;
             default:
                 $this->notFound();
                 break;
         }
     }
 
-    function home()
+    public function home()
     {
         $post = new Post();
         $res = $post->selectPostsHome();
@@ -32,4 +49,144 @@ class Controller
         require_once "./includes/footer.php";
     }
 
+    public function profile($url)
+    {
+        if (!isset($_SESSION['connectedUser'])) {
+            header("location:" . $this->rewritebase . "login");
+        }
+        $user = new User();
+        $userId = $_SESSION['connectedUser'];
+        var_dump($userId);
+        if (isset($url[3]) && $url[3] == 'changePassword') {
+            $userId = $_SESSION['connectedUser'];
+            if (isset($_POST['updatePasswd'])) {
+                $oldPasswd = $user->clean($_POST['oldPasswd']);
+                $newPasswd = $user->clean($_POST['newPasswd']);
+                $passwd = $user->cryptPasswd($newPasswd);
+                $res2 = $user->updatePassword($_SESSION['connectedUser'], $oldPasswd, $passwd);
+            }
+
+        }
+
+        if (isset($_POST['updateProfile'])) {
+            $uploads = 'uploads/';
+            $uploadFile = $uploads . basename($_FILES['image']['name']);
+            if (move_uploaded_file($_FILES['image']['tmp_name'], $uploadFile)) {
+                $resPhoto = $user->updateUser($userId, 'photo', $uploadFile);
+            }
+        }
+
+        $res = $user->selectUserById($_SESSION['connectedUser']);
+        require_once "./includes/header.php";
+        require_once "./view/profile.php";
+        require_once "./includes/footer.php";
+    }
+
+    public function notFound()
+    {
+        require_once "./view/404.php";
+    }
+    public function login($url)
+    {
+        if (isset($url[3]) && $url[3] == 'create') {
+            if (isset($_POST['subscribe'])) {
+                $_user = new User();
+                $name = $_user->clean($_POST['name']);
+                $email = $_user->clean($_POST['email']);
+                $pass = $_user->clean($_POST['passwd']);
+                $passwd = $_user->cryptPasswd($pass);
+                $createdUser = $_user->addUser(array(':name' => $name, ':email' => $email, ':password' => $passwd));
+            }
+        } else {
+            if (isset($_POST['login'])) {
+                $_user = new User();
+                $email = $_user->clean($_POST['email']);
+                $passwd = $_user->clean($_POST['passwd']);
+                $connectedUser = $_user->selectUserByEmail($email, $passwd);
+                $_SESSION['connectedUser'] = $connectedUser['idUtilisateur'];
+                $_SESSION['name'] = $connectedUser['nom'];
+                $_SESSION['role'] = $connectedUser['role'];
+                header("location:" . $this->rewritebase);
+            }
+        }
+        require_once "./includes/header.php";
+        require_once "./view/login.php";
+        require_once "./includes/footer.php";
+    }
+
+    public function posts($url)
+    {
+        if (isset($url[3]) && $url[3] == 'create') {
+
+            if (isset($_POST['postCreate'])) {
+                $post = new Post();
+                $auteur = $post->clean($_POST['name']);
+                $titre = $post->clean($_POST['title']);
+                $contenu = $post->clean($_POST['content']);
+                $description = $post->clean($_POST['description']);
+                $uploads = 'uploads/';
+
+                $uploadFile = $uploads . basename($_FILES['image']['name']);
+                var_dump(basename($_FILES['image']['name']));
+                if (move_uploaded_file($_FILES['image']['tmp_name'], $uploadFile)) {
+                    $newPost = $post->addPost(array(':auteur' => $auteur, ':titre' => $titre, ':contenu' => $contenu, ':description' => $description, ':photo' => $uploadFile, ':Utilisateur_idUtilisateur' => intval($_SESSION['connectedUser']), ':Categorie_idCategorie' => 1));
+                }
+                //$categorie = $post->clean($_POST['category']); ,':categoryId'=>$categorie ':userId'=>$_SESSION['id'];
+
+            }
+
+        } else {
+            $post = new Post();
+            $res = $post->selectPosts();
+        }
+        require_once "./includes/header.php";
+        require_once "./view/posts.php";
+        require_once "./includes/footer.php";
+    }
+    public function post($url)
+    {
+        $post = new Post();
+        $idPost = intval($url[3]);
+        $res = $post->selectPost($idPost);
+        $idAuthor = $res[0]['Utilisateur_idUtilisateur'];
+        $category = $res[0]['Categorie_idCategorie'];
+        $idUser = $_SESSION['connectedUser'];
+        if (isset($_POST['addComment'])) {
+            $comment = new Comments();
+            $contenu = $comment->clean($_POST['commentValue']);
+            $res = $comment->addCommentToPost($comment->clean($idPost), $contenu, $idAuthor, $idUser, $category);
+        }
+        if (isset($_POST['editPost'])) {
+            $post = new Post();
+            $titre = $post->clean($_POST['title']);
+            $contenu = $post->clean($_POST['content']);
+            $description = $post->clean($_POST['description']);
+            var_dump($_FILES);
+            if (isset($_FILES['image'])) {
+                $photo = $_FILES['image']['name'];
+            } else {
+                $photo = null;
+            }
+
+            if ($photo != null) {
+                $uploads = 'uploads/';
+
+                $uploadFile = $uploads . basename($_FILES['image']['name']);
+                if (move_uploaded_file($_FILES['image']['tmp_name'], $uploadFile)) {
+                    $newPost = $post->updatePost(
+                        array(':titre' => $titre, ':contenu' => $contenu, ':description' => $description, ':photo' => $uploadFile, ':idPost' => $idPost)
+                    );
+                    var_dump($newPost);
+                }
+            } else {
+                $newPost = $post->updatePost(array(':titre' => $titre, ':contenu' => $contenu, ':description' => $description, ':idPost' => $idPost));
+            }
+
+        }
+        $comment = new Comments();
+        $commValue = $comment->selectCommentsOfPost($idPost);
+        require_once "./includes/header.php";
+        require_once "./view/post.php";
+        require_once "./includes/footer.php";
+    }
 }
