@@ -17,6 +17,26 @@ class Post extends Database
         $query = $db->prepare('SELECT * FROM post WHERE idPost =:idPost', $values);
         return $query;
     }
+
+    function selectPostsHome(){
+        $db = new Database();
+        $query = $db->prepare('SELECT * FROM post ORDER BY date DESC LIMIT 3');
+        return $query;
+    }
+
+    function selectPostsAdmin(){
+        $db = new Database();
+        $query = $db->prepare('SELECT * from post WHERE status = 0 ORDER BY date DESC LIMIT 5');
+        return $query;
+    }
+
+    function updateStatusPost($idPost){
+        $db = new Database();
+        $values[':idPost'] = $idPost;
+        $query = $db->prepare('UPDATE post set status = 1 WHERE idPost =:idPost', $values);
+        return $query;
+    }
+
     function addPost($vals = array())
     {
         $db = new Database();
@@ -44,6 +64,21 @@ class Post extends Database
         $query = $db->prepare('DELETE FROM post WHERE idPost = :idPost', $values);
         return true;
     }
+
+
+    function addCategory($name){
+        $db = new Database();
+        $values[':name'] = $name;
+        $query = $db->prepare('INSERT INTO categorie (nom) VALUES (:name)', $values);
+        return $query;
+    }
+
+    function getCategories(){
+        $db = new Database();
+        $query = $db->prepare('SELECT nom FROM categorie');
+        return $query;
+    }
+
     
     function clean($data){
         $return = htmlspecialchars($data);
