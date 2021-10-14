@@ -56,6 +56,37 @@ class Controller
         require_once "./view/home.php";
         require_once "./includes/footer.php";
     }
+    function admin(){
+      
+
+        if(!isset($_SESSION['connectedUser'])){
+            header("location:".$this->rewritebase. "login");
+        }
+        if($_SESSION['role'] != 1){
+            header("location:".$this->rewritebase);
+        }
+        $userId = $_SESSION['connectedUser'];
+        $post = new Post();
+        $comm = new Comments();
+        
+        if(isset($_POST['updateStatusPost'])){
+            $post->updateStatusPost($_POST['updateStatusPost']);
+        }
+        if(isset($_POST['updateStatusComm'])){
+            $comm->updateStatusComment($_POST['updateStatusComm']);
+        }
+        if(isset($_POST['categoryCreate'])){
+            $post->addCategory($_POST['categoryInput']);
+        }
+
+        $postsAdmin = $post->selectPostsAdmin();
+        $category = $post->getCategories();
+        $commsAdmin = $comm->selectCommentsAdmin();
+       
+        require_once "./includes/header.php";
+        require_once "./view/admin.php";
+        require_once "./includes/footer.php";
+    }
 
 
     public function profile($url)
