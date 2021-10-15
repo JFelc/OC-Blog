@@ -37,6 +37,11 @@ Class Comments extends Database
         $query = $db->prepare('SELECT C.*,U.nom FROM commentaire as C JOIN utilisateur as U WHERE status = 0 ORDER BY date DESC LIMIT 5');
         return $query;
     }
+    function selectAllCommentsAdmin(){
+        $db = new Database();
+        $query = $db->prepare('SELECT C.*,U.nom FROM commentaire as C JOIN utilisateur as U WHERE status = 0');
+        return $query;
+    }
     function updateStatusComment($commentId){
         $db = new Database();
         $values[':commentId'] = $commentId;
