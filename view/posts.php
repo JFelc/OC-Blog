@@ -22,6 +22,16 @@
         <div class="form-group py-3">
           <textarea type="text" name="description" class="form-control" rows="5" id="floatingDesc" placeholder="Description"></textarea>
         </div>
+        <div class="form-group py-3">
+          <select class="form-select" name="category">
+            <?php foreach($categories as $key => $value) { ?>
+              <option value="<?= $categories[$key]['idCategorie']?>">
+              <?= $categories[$key]['nom']?>
+            </option>
+            <?php } ?>
+
+          </select>
+        </div>
         <div class="form-floating py-3">
           <input type="file" id="image" name="image" accept="image/*">
         </div>
@@ -32,6 +42,7 @@
   </div>
   </div>
   <?php } else { ?>
+    
     <main class="container py-5">
 
 

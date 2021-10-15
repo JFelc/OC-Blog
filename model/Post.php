@@ -8,7 +8,7 @@ class Post extends Database
     function selectPosts()
     {
         $db = new Database();
-        $query = $db->prepare('SELECT * FROM post ORDER BY date DESC');
+        $query = $db->prepare('SELECT * FROM post WHERE status = 1 ORDER BY date DESC');
         return $query;
     }
     function selectPost($idPost){
@@ -20,13 +20,19 @@ class Post extends Database
 
     function selectPostsHome(){
         $db = new Database();
-        $query = $db->prepare('SELECT * FROM post ORDER BY date DESC LIMIT 3');
+        $query = $db->prepare('SELECT * FROM post WHERE status = 1 ORDER BY date DESC LIMIT 3');
         return $query;
     }
 
     function selectPostsAdmin(){
         $db = new Database();
-        $query = $db->prepare('SELECT * from post WHERE status = 0 ORDER BY date DESC LIMIT 5');
+        $query = $db->prepare('SELECT * from post WHERE status = 0 ORDER BY date ASC LIMIT 5');
+        return $query;
+    }
+    
+    function selectAllPostsAdmin(){
+        $db = new Database();
+        $query = $db->prepare('SELECT * from post WHERE status = 0');
         return $query;
     }
 
@@ -75,7 +81,7 @@ class Post extends Database
 
     function getCategories(){
         $db = new Database();
-        $query = $db->prepare('SELECT nom FROM categorie');
+        $query = $db->prepare('SELECT * FROM categorie');
         return $query;
     }
 

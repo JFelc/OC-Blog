@@ -14,12 +14,12 @@
         <a class="nav-link" href="<?php echo $this->rewritebase; ?>posts">Posts</a>
       </li>
       <?php if(isset($_SESSION['role']) && $_SESSION['role'] == 1){ ?>
-      <li>
-          <a class="nav-link me-5" href="<?php echo $this->rewritebase; ?>admin">Admin</a>
+      <li class="nav-item">
+          <a class="nav-link" href="<?php echo $this->rewritebase; ?>admin">Admin</a>
       </li>
       <?php } ?>
     <li class="nav-item">
-      <a href="<?php echo $this->rewritebase; ?>profile" class="nav-link d-flex ms-5"><i class="fas h2 mb-0 fa-user-circle"></i><span class="ps-2 nameUser">
+      <a href="<?php echo $this->rewritebase; ?>profile" class="nav-link d-flex"><i class="fas h2 mb-0 fa-user-circle"></i><span class="ps-2 nameUser">
     <?php
     if(isset($_SESSION['name'])){
       echo "Bonjour ".$_SESSION['name'];

@@ -1,5 +1,5 @@
 <div class="container">
-<?php if (isset($url[4]) && $url[4] == 'edit'){ ?>
+<?php if (isset($url[4]) && $url[4] == 'edit') {?>
   <div class="container">
       <div class="row">
       <form class="col-9 mx-auto" enctype="multipart/form-data" method="POST">
@@ -27,14 +27,21 @@
       </form>
   </div>
   </div>
-<?php } else { ?>
+<?php } else {?>
   <!-- Page Heading/Breadcrumbs -->
-  <?php if ($res[0]['status'] != 0 || $_SESSION['role'] == 1) { ?>
-    <?php if($res[0]['Utilisateur_idUtilisateur'] == $_SESSION['connectedUser']){ ?>
-        <a href="<?php echo $this->rewritebase?>post/<?php echo $res[0]['idPost']?>/edit">Submit</a>
-    <?php } ?>
-  <h1 class="mt-4 mb-3"><?php echo $res[0]['titre'] ?>
-  </h1>
+  <?php if ($res[0]['status'] != 0 || $_SESSION['role'] == 1) {?>
+    <?php if ($res[0]['Utilisateur_idUtilisateur'] == $_SESSION['connectedUser']) {?>
+      <div class="row">
+        <div class="col-10">
+          <h1 class="mt-4 mb-3"><?php echo $res[0]['titre'] ?>
+          </h1>
+        </div>
+        <div class="col-2">
+        <a class="btn btn-primary d-block mt-4 mb-3 pt-2" href="<?php echo $this->rewritebase ?>post/<?php echo $res[0]['idPost'] ?>/edit">Editer</a>
+        </div>
+      </div>
+    <?php }?>
+ 
 
   <div class="row">
 
@@ -42,12 +49,12 @@
     <div class="col-lg-12">
 
       <!-- Preview Image -->
-      <img class="img-fluid rounded" src="<?php echo $this->rewritebase . $res[0]['photo'] ?>" alt="">
+      <img class="imgFull rounded mx-auto" src="<?php echo $this->rewritebase . $res[0]['photo'] ?>" alt="">
 
       <hr>
 
       <!-- Date/Time -->
-      <p>Posté le <?php echo date('d/m/Y à h\hi',strtotime($res[0]['date'])) ?> </p>
+      <p>Posté le <?php echo date('d/m/Y à h\hi', strtotime($res[0]['date'])) ?> </p>
 
       <hr>
 
@@ -55,38 +62,37 @@
 
       <p><?php echo $res[0]['contenu'] ?> </p>
 
-      <?php if (isset($_SESSION['connectedUser']) && ($_SESSION['connectedUser'] != null)) { ?>
-        <form method="POST">
-          <div class="mb-3">
-            <label for="commentText" class="form-label">Commentaire</label>
-            <textarea class="form-control" id="commentText" name="commentValue" rows="3"></textarea>
-          </div>
-          <button type="submit" class="btn btn-primary" name="addComment">Submit</button>
-        </form>
-      <?php } ?>
-    
+
         <section>
-       
+
           <div class="container my-5 py-5">
             <div class="row d-flex justify-content-center">
-            
+
               <div class="col-md-12 col-lg-10">
-                <div class="card text-dark">
+                <div class="card border-0 text-dark">
                 <h4 class="mb-0 mb-4 pb-2 ps-3">Commentaires</h4>
-                <?php foreach ($commValue as $key => $value) { ?>
+                <?php if (isset($_SESSION['connectedUser']) && ($_SESSION['connectedUser'] != null)) {?>
+                  <form method="POST">
+                    <div class="mb-3">
+                      <label for="commentText" class="form-label">Ajouter un commentaire</label>
+                      <textarea class="form-control" id="commentText" name="commentValue" rows="3"></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary" name="addComment">Submit</button>
+                  </form>
+                <?php }?>
+                <?php foreach ($commValue as $key => $value) {?>
                   <div class="card-body p-4">
-                    
-                    
+
+
                     <div class="d-flex flex-start">
-                      <?php if (isset($commValue[$key]['photo'])){ ?>
+                      <?php if (isset($commValue[$key]['photo'])) {?>
                         <img class="rounded-circle shadow-1-strong me-3" src="<?php echo $this->rewritebase . $commValue[$key]['photo'] ?>" alt="avatar" width="60" height="60" />
-                      <?php  } ?>
-                 
+                      <?php }?>
                       <div>
                         <h6 class="fw-bold mb-1"><?php echo $commValue[$key]['nom'] ?></h6>
                         <div class="d-flex align-items-center mb-3">
                           <p class="mb-0">
-                            <?php echo date('d/m/Y à h\hi',strtotime($commValue[$key]['date'])) ?>
+                            <?php echo date('d/m/Y à h\hi', strtotime($commValue[$key]['date'])) ?>
                           </p>
                         </div>
                         <p class="mb-0">
@@ -95,14 +101,14 @@
                       </div>
                     </div>
                   </div>
-                  <?php } ?>
+                  <?php }?>
                 </div>
               </div>
-            
+
             </div>
           </div>
         </section>
-     
+
 
       <!-- Comments Form -->
 
@@ -111,7 +117,7 @@
     <!-- Sidebar Widgets Column -->
 
   </div>
-  <?php } ?>
+  <?php }?>
   <!-- /.row -->
-<?php } ?>
+<?php }?>
 </div>

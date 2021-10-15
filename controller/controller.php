@@ -4,18 +4,15 @@ require_once "./model/Post.php";
 require_once "./model/User.php";
 require_once "./model/Comments.php";
 
-
 class Controller
 {
     public $rewritebase = "/OC-Blog/";
 
     public function __construct($url = "", $qs = "")
-
     {
 
         $url = explode('/', $url);
         $qs = explode('&', $qs);
-
 
         switch ($url[2]) {
             case '':
@@ -25,7 +22,7 @@ class Controller
                 $this->home();
                 break;
             case 'admin':
-                $this->admin();
+                $this->admin($url);
                 break;
             case 'posts':
                 $this->posts($url);
@@ -46,9 +43,7 @@ class Controller
         }
     }
 
-
     public function home()
-
     {
         $post = new Post();
         $res = $post->selectPostsHome();
@@ -56,38 +51,50 @@ class Controller
         require_once "./view/home.php";
         require_once "./includes/footer.php";
     }
-    function admin(){
-      
+    public function admin($url)
+    {
 
-        if(!isset($_SESSION['connectedUser'])){
-            header("location:".$this->rewritebase. "login");
+        if (!isset($_SESSION['connectedUser'])) {
+            header("location:" . $this->rewritebase . "login");
         }
-        if($_SESSION['role'] != 1){
-            header("location:".$this->rewritebase);
+        if ($_SESSION['role'] != 1) {
+            header("location:" . $this->rewritebase);
         }
         $userId = $_SESSION['connectedUser'];
         $post = new Post();
         $comm = new Comments();
-        
-        if(isset($_POST['updateStatusPost'])){
+
+        if (isset($_POST['updateStatusPost'])) {
             $post->updateStatusPost($_POST['updateStatusPost']);
         }
-        if(isset($_POST['updateStatusComm'])){
+        if (isset($_POST['updateStatusComm'])) {
             $comm->updateStatusComment($_POST['updateStatusComm']);
         }
-        if(isset($_POST['categoryCreate'])){
+        if (isset($_POST['categoryCreate'])) {
             $post->addCategory($_POST['categoryInput']);
+        }
+
+        if (isset($url[3]) && $url[3] == 'posts') {
+            $allPosts = $post->selectAllPostsAdmin();
+            if (isset($_POST['updateStatusPostAdmin'])) {
+                $post->updateStatusPost($_POST['updateStatusPostAdmin']);
+            }
+        }
+        if (isset($url[3]) && $url[3] == 'comms') {
+            $allComms = $comm->selectAllCommentsAdmin();
+            if (isset($_POST['updateStatusCommAdmin'])) {
+                $comm->updateStatusComment($_POST['updateStatusCommAdmin']);
+            }
         }
 
         $postsAdmin = $post->selectPostsAdmin();
         $category = $post->getCategories();
         $commsAdmin = $comm->selectCommentsAdmin();
-       
+
         require_once "./includes/header.php";
         require_once "./view/admin.php";
         require_once "./includes/footer.php";
     }
-
 
     public function profile($url)
     {
@@ -157,21 +164,21 @@ class Controller
     public function posts($url)
     {
         if (isset($url[3]) && $url[3] == 'create') {
-
+            $post = new Post();
+            $categories = $post->getCategories();
             if (isset($_POST['postCreate'])) {
-                $post = new Post();
                 $auteur = $post->clean($_POST['name']);
                 $titre = $post->clean($_POST['title']);
                 $contenu = $post->clean($_POST['content']);
                 $description = $post->clean($_POST['description']);
                 $uploads = 'uploads/';
+                $category = $post->clean($_POST['category']);
 
                 $uploadFile = $uploads . basename($_FILES['image']['name']);
                 var_dump(basename($_FILES['image']['name']));
                 if (move_uploaded_file($_FILES['image']['tmp_name'], $uploadFile)) {
-                    $newPost = $post->addPost(array(':auteur' => $auteur, ':titre' => $titre, ':contenu' => $contenu, ':description' => $description, ':photo' => $uploadFile, ':Utilisateur_idUtilisateur' => intval($_SESSION['connectedUser']), ':Categorie_idCategorie' => 1));
+                    $newPost = $post->addPost(array(':auteur' => $auteur, ':titre' => $titre, ':contenu' => $contenu, ':description' => $description, ':photo' => $uploadFile, ':Utilisateur_idUtilisateur' => intval($_SESSION['connectedUser']), ':Categorie_idCategorie' => $category));
                 }
-                //$categorie = $post->clean($_POST['category']); ,':categoryId'=>$categorie ':userId'=>$_SESSION['id'];
 
             }
 
@@ -229,6 +236,5 @@ class Controller
         require_once "./view/post.php";
         require_once "./includes/footer.php";
     }
-
 
 }
