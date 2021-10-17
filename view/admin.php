@@ -6,8 +6,8 @@
         <span class="h5 font-weight-bold"> Posts en attente de review </span>
         <?php foreach ($allPosts as $key => $value) { ?>
           <div class="col-4">
-          <a href="<?php echo $this->rewritebase . 'post/' . $allPosts[$key]['idPost']; ?>"><p><?php echo $allPosts[$key]['titre']?></p></a>
-          <button type="submit" class="btn btn-primary" name="updateStatusPostAdmin" value="<?php echo $allPosts[$key]['idPost']?>"> Update </button>
+          <a href="<?= $this->rewritebase . 'post/' . $allPosts[$key]['idPost']; ?>"><p><?= $allPosts[$key]['titre']?></p></a>
+          <button type="submit" class="btn btn-primary" name="updateStatusPostAdmin" value="<?= $allPosts[$key]['idPost']?>"> Update </button>
         </div>
         <?php } ?>
       </div>
@@ -20,8 +20,8 @@
         <span class="h5 font-weight-bold"> Posts en attente de review </span>
         <?php foreach ($allComms as $key => $value) { ?>
           <div class="col-4">
-          <a href="<?php echo $this->rewritebase . 'post/' . $allComms[$key]['Post_idPost']; ?>"><p><?php echo $allComms[$key]['nom']?></p></a>
-          <button type="submit" class="btn btn-primary" name="updateStatusCommAdmin" value="<?php echo $allComms[$key]['idCommentaire']?>"> Update </button>
+          <a href="<?= $this->rewritebase . 'post/' . $allComms[$key]['Post_idPost']; ?>"><p><?= $allComms[$key]['nom']?></p></a>
+          <button type="submit" class="btn btn-primary" name="updateStatusCommAdmin" value="<?= $allComms[$key]['idCommentaire']?>"> Update </button>
         </div>
         <?php } ?>
       </div>
@@ -34,8 +34,8 @@
         <span class="h5 font-weight-bold"> Posts en attente de review </span>
         <?php foreach ($postsAdmin as $key => $value) { ?>
           <div class="col-4">
-          <a href="<?php echo $this->rewritebase . 'post/' . $postsAdmin[$key]['idPost']; ?>"><p><?php echo $postsAdmin[$key]['titre']?></p></a>
-          <button type="submit" class="btn btn-primary" name="updateStatusPost" value="<?php echo $postsAdmin[$key]['idPost']?>"> Update </button>
+          <a href="<?= $this->rewritebase . 'post/' . $postsAdmin[$key]['idPost']; ?>"><p><?= $postsAdmin[$key]['titre']?></p></a>
+          <button type="submit" class="btn btn-primary" name="updateStatusPost" value="<?= $postsAdmin[$key]['idPost']?>"> Update </button>
         </div>
         <?php } ?>
         <div class="col-4 mt-3 pt-4">
@@ -50,8 +50,8 @@
         <span class="h5 font-weight-bold"> Commentaires en attente de review </span>
         <?php foreach ($commsAdmin as $key => $value) { ?>
           <div class="col-4">
-          <a href="<?php echo $this->rewritebase . 'post/' . $commsAdmin[$key]['Post_idPost']; ?>"><p><?php echo $commsAdmin[$key]['nom']?></p></a>
-          <button type="submit" class="btn btn-primary" name="updateStatusComm" value="<?php echo $commsAdmin[$key]['idCommentaire']?>"> Update </button>
+          <a href="<?= $this->rewritebase . 'post/' . $commsAdmin[$key]['Post_idPost']; ?>"><p><?= $commsAdmin[$key]['nom']?></p></a>
+          <button type="submit" class="btn btn-primary" name="updateStatusComm" value="<?= $commsAdmin[$key]['idCommentaire']?>"> Update </button>
         </div>
         <?php } ?>
       </div>
@@ -66,7 +66,7 @@
   </div>
   <ul> Catégories déjà existantes : 
   <?php foreach ($category as $key => $value) { ?>
-    <li> <?php echo $category[$key]['nom']; ?> </li>
+    <li> <?= $category[$key]['nom']; ?> </li>
   <?php } ?>  
   </ul>
   </div>

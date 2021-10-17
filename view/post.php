@@ -33,11 +33,11 @@
     <?php if ($res[0]['Utilisateur_idUtilisateur'] == $_SESSION['connectedUser']) {?>
       <div class="row">
         <div class="col-10">
-          <h1 class="mt-4 mb-3"><?php echo $res[0]['titre'] ?>
+          <h1 class="mt-4 mb-3"><?= $res[0]['titre'] ?>
           </h1>
         </div>
         <div class="col-2">
-        <a class="btn btn-primary d-block mt-4 mb-3 pt-2" href="<?php echo $this->rewritebase ?>post/<?php echo $res[0]['idPost'] ?>/edit">Editer</a>
+        <a class="btn btn-primary d-block mt-4 mb-3 pt-2" href="<?= $this->rewritebase ?>post/<?= $res[0]['idPost'] ?>/edit">Editer</a>
         </div>
       </div>
     <?php }?>
@@ -49,18 +49,18 @@
     <div class="col-lg-12">
 
       <!-- Preview Image -->
-      <img class="imgFull rounded mx-auto" src="<?php echo $this->rewritebase . $res[0]['photo'] ?>" alt="">
+      <img class="imgFull rounded mx-auto" src="<?= $this->rewritebase . $res[0]['photo'] ?>" alt="">
 
       <hr>
 
       <!-- Date/Time -->
-      <p>Posté le <?php echo date('d/m/Y à h\hi', strtotime($res[0]['date'])) ?> </p>
+      <p>Posté le <?= date('d/m/Y à h\hi', strtotime($res[0]['date'])) ?> </p>
 
       <hr>
 
       <!-- Post Content -->
 
-      <p><?php echo $res[0]['contenu'] ?> </p>
+      <p><?= $res[0]['contenu'] ?> </p>
 
 
         <section>
@@ -86,17 +86,17 @@
 
                     <div class="d-flex flex-start">
                       <?php if (isset($commValue[$key]['photo'])) {?>
-                        <img class="rounded-circle shadow-1-strong me-3" src="<?php echo $this->rewritebase . $commValue[$key]['photo'] ?>" alt="avatar" width="60" height="60" />
+                        <img class="rounded-circle shadow-1-strong me-3" src="<?= $this->rewritebase . $commValue[$key]['photo'] ?>" alt="avatar" width="60" height="60" />
                       <?php }?>
                       <div>
-                        <h6 class="fw-bold mb-1"><?php echo $commValue[$key]['nom'] ?></h6>
+                        <h6 class="fw-bold mb-1"><?= $commValue[$key]['nom'] ?></h6>
                         <div class="d-flex align-items-center mb-3">
                           <p class="mb-0">
-                            <?php echo date('d/m/Y à h\hi', strtotime($commValue[$key]['date'])) ?>
+                            <?= date('d/m/Y à h\hi', strtotime($commValue[$key]['date'])) ?>
                           </p>
                         </div>
                         <p class="mb-0">
-                         <?php echo $commValue[$key]['contenu'] ?>
+                         <?= $commValue[$key]['contenu'] ?>
                         </p>
                       </div>
                     </div>

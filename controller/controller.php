@@ -57,7 +57,7 @@ class Controller
         if (!isset($_SESSION['connectedUser'])) {
             header("location:" . $this->rewritebase . "login");
         }
-        if ($_SESSION['role'] != 1) {
+        if (isset($_SESSION['role']) && $_SESSION['role'] != 1) {
             header("location:" . $this->rewritebase);
         }
         $userId = $_SESSION['connectedUser'];
@@ -65,24 +65,35 @@ class Controller
         $comm = new Comments();
 
         if (isset($_POST['updateStatusPost'])) {
-            $post->updateStatusPost($_POST['updateStatusPost']);
+            $res = $post->clean($_POST['updateStatusPost']);
+            $post->updateStatusPost($res);
         }
         if (isset($_POST['updateStatusComm'])) {
-            $comm->updateStatusComment($_POST['updateStatusComm']);
+            $res = $comm->clean($_POST['updateStatusComm']);
+            $comm->updateStatusComment($res);
         }
-        if (isset($_POST['categoryCreate'])) {
-            $post->addCategory($_POST['categoryInput']);
+        if (isset($_POST['categoryCreate'])) 
+        {
+            if(isset($_POST['categoryInput']))
+            {
+                $res = $post->clean($_POST['categoryInput']);
+                $post->addCategory($res);
+            }
         }
 
-        if (isset($url[3]) && $url[3] == 'posts') {
+        if (isset($url[3]) && $url[3] == 'posts') 
+        {
             $allPosts = $post->selectAllPostsAdmin();
-            if (isset($_POST['updateStatusPostAdmin'])) {
+            if (isset($_POST['updateStatusPostAdmin'])) 
+            {
                 $post->updateStatusPost($_POST['updateStatusPostAdmin']);
             }
         }
-        if (isset($url[3]) && $url[3] == 'comms') {
+        if (isset($url[3]) && $url[3] == 'comms') 
+        {
             $allComms = $comm->selectAllCommentsAdmin();
-            if (isset($_POST['updateStatusCommAdmin'])) {
+            if (isset($_POST['updateStatusCommAdmin'])) 
+            {
                 $comm->updateStatusComment($_POST['updateStatusCommAdmin']);
             }
         }
@@ -98,15 +109,16 @@ class Controller
 
     public function profile($url)
     {
-        if (!isset($_SESSION['connectedUser'])) {
+        if (!isset($_SESSION['connectedUser'])) 
+        {
             header("location:" . $this->rewritebase . "login");
         }
         $user = new User();
         $userId = $_SESSION['connectedUser'];
-        var_dump($userId);
-        if (isset($url[3]) && $url[3] == 'changePassword') {
-            $userId = $_SESSION['connectedUser'];
-            if (isset($_POST['updatePasswd'])) {
+        if (isset($url[3]) && $url[3] == 'changePassword') 
+        {
+            if (isset($_POST['updatePasswd'])) 
+            {
                 $oldPasswd = $user->clean($_POST['oldPasswd']);
                 $newPasswd = $user->clean($_POST['newPasswd']);
                 $passwd = $user->cryptPasswd($newPasswd);
@@ -115,10 +127,12 @@ class Controller
 
         }
 
-        if (isset($_POST['updateProfile'])) {
+        if (isset($_POST['updateProfile'])) 
+        {
             $uploads = 'uploads/';
             $uploadFile = $uploads . basename($_FILES['image']['name']);
-            if (move_uploaded_file($_FILES['image']['tmp_name'], $uploadFile)) {
+            if (move_uploaded_file($_FILES['image']['tmp_name'], $uploadFile)) 
+            {
                 $resPhoto = $user->updateUser($userId, 'photo', $uploadFile);
             }
         }
@@ -135,8 +149,10 @@ class Controller
     }
     public function login($url)
     {
-        if (isset($url[3]) && $url[3] == 'create') {
-            if (isset($_POST['subscribe'])) {
+        if (isset($url[3]) && $url[3] == 'create') 
+        {
+            if (isset($_POST['subscribe'])) 
+            {
                 $_user = new User();
                 $name = $_user->clean($_POST['name']);
                 $email = $_user->clean($_POST['email']);
@@ -145,7 +161,8 @@ class Controller
                 $createdUser = $_user->addUser(array(':name' => $name, ':email' => $email, ':password' => $passwd));
             }
         } else {
-            if (isset($_POST['login'])) {
+            if (isset($_POST['login'])) 
+            {
                 $_user = new User();
                 $email = $_user->clean($_POST['email']);
                 $passwd = $_user->clean($_POST['passwd']);
@@ -163,21 +180,29 @@ class Controller
 
     public function posts($url)
     {
-        if (isset($url[3]) && $url[3] == 'create') {
+        if (isset($url[3]) && $url[3] == 'create') 
+        {
             $post = new Post();
             $categories = $post->getCategories();
             if (isset($_POST['postCreate'])) {
-                $auteur = $post->clean($_POST['name']);
-                $titre = $post->clean($_POST['title']);
-                $contenu = $post->clean($_POST['content']);
-                $description = $post->clean($_POST['description']);
+                $auteur = isset($_POST['name']) ? $post->clean($_POST['name']): '';
+                $titre = isset($_POST['title']) ? $post->clean($_POST['title']) : '';
+                $contenu = isset($_POST['content']) ? $post->clean($_POST['content']) : '';
+                $description = isset($_POST['description']) ? $post->clean($_POST['description']) : '';
                 $uploads = 'uploads/';
-                $category = $post->clean($_POST['category']);
+                $category = isset($_POST['category']) ? $post->clean($_POST['category']) : '';
 
                 $uploadFile = $uploads . basename($_FILES['image']['name']);
-                var_dump(basename($_FILES['image']['name']));
-                if (move_uploaded_file($_FILES['image']['tmp_name'], $uploadFile)) {
-                    $newPost = $post->addPost(array(':auteur' => $auteur, ':titre' => $titre, ':contenu' => $contenu, ':description' => $description, ':photo' => $uploadFile, ':Utilisateur_idUtilisateur' => intval($_SESSION['connectedUser']), ':Categorie_idCategorie' => $category));
+                if (move_uploaded_file($_FILES['image']['tmp_name'], $uploadFile)) 
+                {
+                    $newPost = $post->addPost(array(
+                        ':auteur' => $auteur, 
+                        ':titre' => $titre, 
+                        ':contenu' => $contenu, 
+                        ':description' => $description, 
+                        ':photo' => $uploadFile, 
+                        ':Utilisateur_idUtilisateur' => intval($_SESSION['connectedUser']), 
+                        ':Categorie_idCategorie' => $category));
                 }
 
             }
@@ -208,7 +233,6 @@ class Controller
             $titre = $post->clean($_POST['title']);
             $contenu = $post->clean($_POST['content']);
             $description = $post->clean($_POST['description']);
-            var_dump($_FILES);
             if (isset($_FILES['image'])) {
                 $photo = $_FILES['image']['name'];
             } else {
@@ -223,7 +247,6 @@ class Controller
                     $newPost = $post->updatePost(
                         array(':titre' => $titre, ':contenu' => $contenu, ':description' => $description, ':photo' => $uploadFile, ':idPost' => $idPost)
                     );
-                    var_dump($newPost);
                 }
             } else {
                 $newPost = $post->updatePost(array(':titre' => $titre, ':contenu' => $contenu, ':description' => $description, ':idPost' => $idPost));

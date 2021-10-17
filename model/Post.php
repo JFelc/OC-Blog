@@ -49,7 +49,6 @@ class Post extends Database
         //File upload
         
         $query = $db->prepare('INSERT INTO post (auteur,titre,contenu,description,photo,Utilisateur_idUtilisateur,Categorie_idCategorie) VALUES (:auteur,:titre,:contenu,:description,:photo,:Utilisateur_idUtilisateur, :Categorie_idCategorie)', $vals);
-        var_dump($query); 
         return $query;
     }
     function updatePost($vals = array())
