@@ -47,7 +47,7 @@
   </form>
   <div>
   <span>Pas encore inscrit?</span>
-  <a class="btn btn-lg btn-primary" href="<?php echo $this->rewritebase.'login/create';?>">Créer votre compte</a>
+  <a class="btn btn-lg btn-primary" href="<?= $this->rewritebase.'login/create';?>">Créer votre compte</a>
   </div>
 </main>
 <?php } ?>

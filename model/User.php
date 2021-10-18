@@ -12,17 +12,18 @@ class User extends Database
         $query = $db->prepare('SELECT * FROM utilisateur ORDER BY ASC');
         return $query;
     }
-    function selectUserById($idUser){
+    function selectUserById($idUser)
+    {
         $db = new Database();
         $values[':idUser'] = $idUser;
         $query = $db->prepare('SELECT * FROM utilisateur WHERE idUtilisateur =:idUser', $values);
         return $query;
     }
-    function selectUserByEmail($emailUser,$passwd){
+    function selectUserByEmail($emailUser,$passwd)
+    {
         $db = new Database();
         $values[':emailUser'] = $emailUser;
         $query = $db->prepare('SELECT idUtilisateur,password,nom,role FROM utilisateur WHERE email =:emailUser', $values);
-        var_dump($query[0]);
         $return =  password_verify($passwd,$query[0]['password']) ? $query[0] : false;
         return $return;
     }
@@ -30,23 +31,19 @@ class User extends Database
     {
         $db = new Database();
         $values[':idUser'] = $idUser;
-       // $values[':field'] = $field;
         $values[':valueField'] = $valueField;
         $query = $db->prepare('UPDATE utilisateur SET '.$field.' =:valueField WHERE idUtilisateur =:idUser', $values);
-        var_dump($query);
         return $query;
     }
 
-    function updatePassword($idUser,$oldPasswd,$newPasswd){
+    function updatePassword($idUser,$oldPasswd,$newPasswd)
+    {
         $db = new Database();
         $values[':User'] = $idUser;
         $value[':password'] = $newPasswd;
         $value[':User'] = $idUser;
         $query = $db->prepare('SELECT * FROM utilisateur WHERE idUtilisateur =:User', $values);
         $return =  password_verify($oldPasswd,$query[0]['password']) ? $query[0]['idUtilisateur'] : false;
-        var_dump($values);
-        var_dump($query);
-        var_dump($return);
         if($return){
             $update = $db->prepare('UPDATE utilisateur SET password =:password WHERE idUtilisateur =:User', $value);
         }
@@ -59,7 +56,6 @@ class User extends Database
         $db = new Database();
         //vérif que User existe déjà
         $email = $db->prepare('SELECT email FROM utilisateur WHERE email =:email', array(':email'=>$vals[':email']));
-        var_dump($email);
         /*if($vals[':email'] == $email){
             //erreur user déjà existant
         }

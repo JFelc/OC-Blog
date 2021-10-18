@@ -46,18 +46,17 @@ body {
     font-size: 3.5rem;
   }
 }
-.homeImage{
+.homeImage {
   width: 50%;
   height: auto;
 }
-.nameUser{
+.nameUser {
   display: flex;
   padding-top:3px;
 }
 
-.imgFull{
+.imgFull {
   height: auto;
   width: 50%;
   display: flex;
-  
 }
