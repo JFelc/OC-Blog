@@ -186,7 +186,7 @@ class Controller
                 $category = isset($_POST['category']) ? $post->clean($_POST['category']) : '';
 
                 $uploadFile = $uploads . basename($_FILES['image']['name']);
-                if (move_uploaded_file($_FILES['image']['tmp_name'], $uploadFile)) 
+                if (move_uploaded_file(isset($_FILES['image']['tmp_name']) ? $_FILES['image']['tmp_name']: '', $uploadFile)) 
                 {
                     $newPost = $post->addPost(array(
                         ':auteur' => $auteur, 
@@ -236,7 +236,7 @@ class Controller
                 $uploads = 'uploads/';
 
                 $uploadFile = isset($_FILES['image']['name']) ? $uploads . basename($_FILES['image']['name']): '';
-                if (move_uploaded_file($_FILES['image']['tmp_name'], $uploadFile)) {
+                if (move_uploaded_file(isset($_FILES['image']['tmp_name']) ? $_FILES['image']['tmp_name']: '', $uploadFile)) {
                     $newPost = $post->updatePost(
                         array(':titre' => $titre, ':contenu' => $contenu, ':description' => $description, ':photo' => $uploadFile, ':idPost' => $idPost)
                     );
