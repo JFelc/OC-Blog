@@ -38,26 +38,42 @@
 
   <div class="album py-5 bg-light">
     <div class="container">
-      <form>
+      <form method="POST">
         <div class="form-group col-6 mx-auto">
           <div class="row">
             <div class="col-12 py-3">
-              <input type="text" class="form-control" placeholder="Nom">
+              <input type="text" class="form-control" name="lName" placeholder="Nom">
             </div>
             <div class="col-12 py-3">
-              <input type="text" class="form-control" placeholder="Prénom">
+              <input type="text" class="form-control" name="fName" placeholder="Prénom">
             </div>
           </div>
         </div>
         <div class="form-group col-6 mx-auto py-3">
-          <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Entrez l'adresse mail">
+          <a href="https://us5.list-manage.com/contact-form?u=b7f00bd936c85c27f0d76f7d5&form_id=db2645b23e72b2031582df8483159e18">Me contacter</a>
+          <input type="email" class="form-control" name="contactMail" placeholder="Entrez l'adresse mail">
+        </div>
+        <div class="form-group col-6 mx-auto py-3">
+          <textarea class="form-control" placeholder="Message" name="contactMessage"></textarea>
         </div>
         <div class=" form-group col-6 mx-auto">
           <div class="text-end">
-            <button type="submit" class="btn btn-primary">Submit</button>
+            <button type="submit" class="btn btn-primary" name="contact">Submit</button>
           </div>
         </div>
       </form>
+      <?php if(isset($_SESSION['contact'])) { ?>
+        <div class="row">
+          <div class="col">
+            <p>
+              Votre message a bien enregistré, voici son contenu:
+              <?= $lName.' '.$fName ?>
+              <?= $contactMail ?>
+              <?= $message ?>
+            </p>
+          </div>
+        </div>
+        <? } ?>
     </div>
   </div>
 

@@ -47,6 +47,17 @@ class Controller
     {
         $post = new Post();
         $res = $post->selectPostsHome();
+
+        if(isset($_POST['contact']))
+        {
+            $_SESSION['contact'] = true;
+            $fName = isset($_POST['fName']) ? $_POST['fName'] : '';
+            $lName = isset($_POST['lName']) ? $_POST['lName'] : '';
+            $contactMail = isset($_POST['contactMail']) ? $_POST['contactMail'] : '';
+            $message = isset($_POST['contactMessage']) ? $_POST['contactMessage'] : '';
+            
+            //mail('julien.felici@gmail.com', 'Test Mail', $message, $fName);
+        }
         require_once "./includes/header.php";
         require_once "./view/home.php";
         require_once "./includes/footer.php";
