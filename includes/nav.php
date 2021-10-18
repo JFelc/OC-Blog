@@ -21,7 +21,8 @@
     <li class="nav-item">
       <a href="<?= $this->rewritebase; ?>profile" class="nav-link d-flex"><i class="fas h2 mb-0 fa-user-circle"></i><span class="ps-2 nameUser">
     <?php
-    if(isset($_SESSION['name'])){
+    if(isset($_SESSION['name']))
+    {
       echo "Bonjour ".$_SESSION['name'];
     } ?>
     </span>

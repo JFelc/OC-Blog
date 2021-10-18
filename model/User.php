@@ -12,13 +12,15 @@ class User extends Database
         $query = $db->prepare('SELECT * FROM utilisateur ORDER BY ASC');
         return $query;
     }
-    function selectUserById($idUser){
+    function selectUserById($idUser)
+    {
         $db = new Database();
         $values[':idUser'] = $idUser;
         $query = $db->prepare('SELECT * FROM utilisateur WHERE idUtilisateur =:idUser', $values);
         return $query;
     }
-    function selectUserByEmail($emailUser,$passwd){
+    function selectUserByEmail($emailUser,$passwd)
+    {
         $db = new Database();
         $values[':emailUser'] = $emailUser;
         $query = $db->prepare('SELECT idUtilisateur,password,nom,role FROM utilisateur WHERE email =:emailUser', $values);
@@ -34,7 +36,8 @@ class User extends Database
         return $query;
     }
 
-    function updatePassword($idUser,$oldPasswd,$newPasswd){
+    function updatePassword($idUser,$oldPasswd,$newPasswd)
+    {
         $db = new Database();
         $values[':User'] = $idUser;
         $value[':password'] = $newPasswd;

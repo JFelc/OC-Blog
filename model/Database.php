@@ -2,7 +2,8 @@
 require_once 'Config.php';
 
 
-class Database extends Config {
+class Database extends Config 
+{
 
     private static $db = null;
 

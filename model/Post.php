@@ -11,32 +11,37 @@ class Post extends Database
         $query = $db->prepare('SELECT * FROM post WHERE status = 1 ORDER BY date DESC');
         return $query;
     }
-    function selectPost($idPost){
+    function selectPost($idPost)
+    {
         $db = new Database();
         $values[':idPost'] = $idPost;
         $query = $db->prepare('SELECT * FROM post WHERE idPost =:idPost', $values);
         return $query;
     }
 
-    function selectPostsHome(){
+    function selectPostsHome()
+    {
         $db = new Database();
         $query = $db->prepare('SELECT * FROM post WHERE status = 1 ORDER BY date DESC LIMIT 3');
         return $query;
     }
 
-    function selectPostsAdmin(){
+    function selectPostsAdmin()
+    {
         $db = new Database();
         $query = $db->prepare('SELECT * from post WHERE status = 0 ORDER BY date ASC LIMIT 5');
         return $query;
     }
     
-    function selectAllPostsAdmin(){
+    function selectAllPostsAdmin()
+    {
         $db = new Database();
         $query = $db->prepare('SELECT * from post WHERE status = 0');
         return $query;
     }
 
-    function updateStatusPost($idPost){
+    function updateStatusPost($idPost)
+    {
         $db = new Database();
         $values[':idPost'] = $idPost;
         $query = $db->prepare('UPDATE post set status = 1 WHERE idPost =:idPost', $values);
@@ -71,21 +76,24 @@ class Post extends Database
     }
 
 
-    function addCategory($name){
+    function addCategory($name)
+    {
         $db = new Database();
         $values[':name'] = $name;
         $query = $db->prepare('INSERT INTO categorie (nom) VALUES (:name)', $values);
         return $query;
     }
 
-    function getCategories(){
+    function getCategories()
+    {
         $db = new Database();
         $query = $db->prepare('SELECT * FROM categorie');
         return $query;
     }
 
     
-    function clean($data){
+    function clean($data)
+    {
         $return = htmlspecialchars($data);
         $return = trim($data);
         $return = addslashes($data);
