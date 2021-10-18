@@ -17,7 +17,7 @@
   <div class="container">
   <form method="POST">
   <div class="row">
-        <span class="h5 font-weight-bold"> Posts en attente de review </span>
+        <span class="h5 font-weight-bold"> Commentaires en attente de review </span>
         <?php foreach ($allComms as $key => $value) { ?>
           <div class="col-4">
           <a href="<?= $this->rewritebase . 'post/' . $allComms[$key]['Post_idPost']; ?>"><p><?= $allComms[$key]['nom']?></p></a>
@@ -54,6 +54,9 @@
           <button type="submit" class="btn btn-primary" name="updateStatusComm" value="<?= $commsAdmin[$key]['idCommentaire']?>"> Update </button>
         </div>
         <?php } ?>
+        <div class="col-4 mt-3 pt-4">
+          <a class="btn btn-primary" href="<?= $this->rewritebase . 'admin/comms'; ?>">Voir plus</a>
+        </div>
       </div>
 </form>
 

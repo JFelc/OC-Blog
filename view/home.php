@@ -50,7 +50,6 @@
           </div>
         </div>
         <div class="form-group col-6 mx-auto py-3">
-          <a href="https://us5.list-manage.com/contact-form?u=b7f00bd936c85c27f0d76f7d5&form_id=db2645b23e72b2031582df8483159e18">Me contacter</a>
           <input type="email" class="form-control" name="contactMail" placeholder="Entrez l'adresse mail">
         </div>
         <div class="form-group col-6 mx-auto py-3">
@@ -62,18 +61,23 @@
           </div>
         </div>
       </form>
+      <div class="row">
+        <div class="col mx-auto text-center">
+          <a href="https://us5.list-manage.com/contact-form?u=b7f00bd936c85c27f0d76f7d5&form_id=db2645b23e72b2031582df8483159e18">Me contacter</a>
+        </div>
+      </div>
       <?php if(isset($_SESSION['contact'])) { ?>
         <div class="row">
-          <div class="col">
+          <div class="col mx-auto text-center">
             <p>
-              Votre message a bien enregistré, voici son contenu:
-              <?= $lName.' '.$fName ?>
-              <?= $contactMail ?>
-              <?= $message ?>
+              Votre message a bien enregistré, voici son contenu: </p>
+              <p><?= $lName.' '.$fName ?> </p>
+              <p><?= $contactMail ?></p>
+              <p><?= $message ?></p>
             </p>
           </div>
         </div>
-        <? } ?>
+        <?php } ?>
     </div>
   </div>
 
