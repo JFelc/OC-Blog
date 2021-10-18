@@ -49,26 +49,26 @@
       <div class="row" data-masonry='{"percentPosition":true }'>
         <?php foreach ($res as $key => $value) { ?>
             <div class="col-4 mb-4">
-            <a href="<?php echo $this->rewritebase . 'post/' . $res[$key]['idPost']; ?>">
+            <a href="<?= $this->rewritebase . 'post/' . $res[$key]['idPost']; ?>">
               <div class="card">
                 <?php if (isset($res[$key]['photo']) && $res[$key]['photo'] != null) { ?>
-                  <img src="<?php echo $this->rewritebase . $res[$key]['photo']; ?>">
-                  <h3><?php echo $res[$key]['auteur'] ?></h3>
+                  <img src="<?= $this->rewritebase . $res[$key]['photo']; ?>">
+                  <h3><?= $res[$key]['auteur'] ?></h3>
                 <?php } else { ?>
                   <svg class="bd-placeholder-img card-img-top" width="100%" height="200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Image cap" preserveAspectRatio="xMidYMid slice" focusable="false">
                     <rect width="100%" height="100%" fill="#868e96"></rect><text x="50%" y="50%" fill="#dee2e6" dy=".3em">Image cap</text>
                   </svg>
                 <?php } ?>
                 <div class="card-body">
-                  <h5 class="card-title"><?php echo $res[$key]['titre'] ?></h5>
-                  <p class="card-text"><?php echo $res[$key]['description'] ?></p>
+                  <h5 class="card-title"><?= $res[$key]['titre'] ?></h5>
+                  <p class="card-text"><?= $res[$key]['description'] ?></p>
                 </div>
               </div>
               </a>
             </div>
         <?php  } ?>
       </div>
-      <a class="btn btn-primary" href="<?php echo $this->rewritebase; ?>posts/create">Créer un post</a>
+      <a class="btn btn-primary" href="<?= $this->rewritebase; ?>posts/create">Créer un post</a>
     </main>
   <?php } ?>
 </body>
