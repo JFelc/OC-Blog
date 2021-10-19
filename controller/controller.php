@@ -47,6 +47,19 @@ class Controller
     {
         $post = new Post();
         $res = $post->selectPostsHome();
+        $_SESSION['contact'] = false;
+        unset($_SESSION['contact']);
+
+        if(isset($_POST['contact']))
+        {
+            $_SESSION['contact'] = true;
+            $fName = isset($_POST['fName']) ? $_POST['fName'] : '';
+            $lName = isset($_POST['lName']) ? $_POST['lName'] : '';
+            $contactMail = isset($_POST['contactMail']) ? $_POST['contactMail'] : '';
+            $message = isset($_POST['contactMessage']) ? $_POST['contactMessage'] : '';
+            
+            //mail('julien.felici@gmail.com', 'Test Mail', $message, $fName);
+        }
         require_once "./includes/header.php";
         require_once "./view/home.php";
         require_once "./includes/footer.php";
@@ -186,7 +199,7 @@ class Controller
                 $category = isset($_POST['category']) ? $post->clean($_POST['category']) : '';
 
                 $uploadFile = $uploads . basename($_FILES['image']['name']);
-                if (move_uploaded_file(isset($_FILES['image']['tmp_name']) ? $_FILES['image']['tmp_name']: '', $uploadFile)) 
+                if (move_uploaded_file($_FILES['image']['tmp_name'], $uploadFile)) 
                 {
                     $newPost = $post->addPost(array(
                         ':auteur' => $auteur, 
@@ -213,6 +226,7 @@ class Controller
         $post = new Post();
         $idPost = intval($url[3]);
         $res = $post->selectPost($idPost);
+        $categories = $post->getCategories();
         $idAuthor = $res[0]['Utilisateur_idUtilisateur'];
         $category = $res[0]['Categorie_idCategorie'];
         $idUser = $_SESSION['connectedUser'];
@@ -226,6 +240,7 @@ class Controller
             $titre = isset($_POST['title']) ? $post->clean($_POST['title']): '';
             $contenu = isset($_POST['content']) ? $post->clean($_POST['content']): '';
             $description = isset($_POST['description']) ? $post->clean($_POST['description']): '';
+            $category = isset($_POST['category']) ? $post->clean($_POST['category']) : '';
             if (isset($_FILES['image'])) {
                 $photo = $_FILES['image']['name'];
             } else {
@@ -235,14 +250,29 @@ class Controller
             if ($photo != null) {
                 $uploads = 'uploads/';
 
-                $uploadFile = isset($_FILES['image']['name']) ? $uploads . basename($_FILES['image']['name']): '';
-                if (move_uploaded_file(isset($_FILES['image']['tmp_name']) ? $_FILES['image']['tmp_name']: '', $uploadFile)) {
+                $uploadFile = $uploads . basename($_FILES['image']['name']);
+                if (move_uploaded_file($_FILES['image']['tmp_name'],$uploadFile)) 
+                {
                     $newPost = $post->updatePost(
-                        array(':titre' => $titre, ':contenu' => $contenu, ':description' => $description, ':photo' => $uploadFile, ':idPost' => $idPost)
+                        array(
+                        ':titre' => $titre, 
+                        ':contenu' => $contenu, 
+                        ':description' => $description, 
+                        ':photo' => $uploadFile, 
+                        ':idPost' => $idPost, 
+                        ':Categorie_idCategorie' => $category)
                     );
                 }
             } else {
-                $newPost = $post->updatePost(array(':titre' => $titre, ':contenu' => $contenu, ':description' => $description, ':idPost' => $idPost));
+                    $newPost = $post->updatePost(
+                        array(
+                            ':titre' => $titre, 
+                            ':contenu' => $contenu, 
+                            ':description' => $description,
+                            ':idPost' => $idPost, 
+                            ':Categorie_idCategorie' => $category)
+                    );
+               
             }
 
         }

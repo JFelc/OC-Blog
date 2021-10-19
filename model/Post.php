@@ -51,8 +51,6 @@ class Post extends Database
     function addPost($vals = array())
     {
         $db = new Database();
-        //File upload
-        
         $query = $db->prepare('INSERT INTO post (auteur,titre,contenu,description,photo,Utilisateur_idUtilisateur,Categorie_idCategorie) VALUES (:auteur,:titre,:contenu,:description,:photo,:Utilisateur_idUtilisateur, :Categorie_idCategorie)', $vals);
         return $query;
     }
@@ -60,9 +58,9 @@ class Post extends Database
     {
         $db = new Database();
         if(isset($vals[':photo'])){
-            $query = $db->prepare('UPDATE post SET titre =:titre, contenu =:contenu, description =:description, photo =:photo WHERE idPost =:idPost', $vals);
+            $query = $db->prepare('UPDATE post SET titre =:titre, contenu =:contenu, description =:description, photo =:photo, status=0, Categorie_idCategorie =:Categorie_idCategorie WHERE idPost =:idPost', $vals);
         } else {
-            $query = $db->prepare('UPDATE post SET titre =:titre, contenu =:contenu, description =:description WHERE idPost =:idPost', $vals);
+            $query = $db->prepare('UPDATE post SET titre =:titre, contenu =:contenu, description =:description, status=0, Categorie_idCategorie =:Categorie_idCategorie WHERE idPost =:idPost', $vals);
         }
         
         return $query;

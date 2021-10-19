@@ -8,15 +8,21 @@
         <div class="form-group col py-3">
           <input type="text" name="title" class="form-control" id="floatingTitle" placeholder="Titre" style="background-image: url(&quot;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAASCAYAAABSO15qAAAAAXNSR0IArs4c6QAAAPhJREFUOBHlU70KgzAQPlMhEvoQTg6OPoOjT+JWOnRqkUKHgqWP4OQbOPokTk6OTkVULNSLVc62oJmbIdzd95NcuGjX2/3YVI/Ts+t0WLE2ut5xsQ0O+90F6UxFjAI8qNcEGONia08e6MNONYwCS7EQAizLmtGUDEzTBNd1fxsYhjEBnHPQNG3KKTYV34F8ec/zwHEciOMYyrIE3/ehKAqIoggo9inGXKmFXwbyBkmSQJqmUNe15IRhCG3byphitm1/eUzDM4qR0TTNjEixGdAnSi3keS5vSk2UDKqqgizLqB4YzvassiKhGtZ/jDMtLOnHz7TE+yf8BaDZXA509yeBAAAAAElFTkSuQmCC&quot;); background-repeat: no-repeat; background-attachment: scroll; background-size: 16px 18px; background-position: 98% 50%;">
         </div>
-        <div class="form-group col py-3">
-          <input type="text" name="name" class="form-control" id="floatingAuthor" placeholder="Auteur" style="background-image: url(&quot;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAASCAYAAABSO15qAAAAAXNSR0IArs4c6QAAAPhJREFUOBHlU70KgzAQPlMhEvoQTg6OPoOjT+JWOnRqkUKHgqWP4OQbOPokTk6OTkVULNSLVc62oJmbIdzd95NcuGjX2/3YVI/Ts+t0WLE2ut5xsQ0O+90F6UxFjAI8qNcEGONia08e6MNONYwCS7EQAizLmtGUDEzTBNd1fxsYhjEBnHPQNG3KKTYV34F8ec/zwHEciOMYyrIE3/ehKAqIoggo9inGXKmFXwbyBkmSQJqmUNe15IRhCG3byphitm1/eUzDM4qR0TTNjEixGdAnSi3keS5vSk2UDKqqgizLqB4YzvassiKhGtZ/jDMtLOnHz7TE+yf8BaDZXA509yeBAAAAAElFTkSuQmCC&quot;); background-repeat: no-repeat; background-attachment: scroll; background-size: 16px 18px; background-position: 98% 50%;">
-        </div>
         </div>
         <div class="form-group py-3">
           <textarea type="text" name="content" class="form-control" id="floatingContent" rows="5" placeholder="Contenu"></textarea>
         </div>
         <div class="form-group py-3">
           <textarea type="text" name="description" class="form-control" rows="5" id="floatingDesc" placeholder="Description"></textarea>
+        </div>
+        <div class="form-group py-3">
+          <select class="form-select" name="category">
+            <?php foreach($categories as $key => $value) { ?>
+              <option value="<?= $categories[$key]['idCategorie']?>">
+              <?= $categories[$key]['nom']?>
+            </option>
+            <?php } ?>
+          </select>
         </div>
         <div class="form-floating py-3">
           <input type="file" id="image" name="image" accept="image/*">
@@ -54,7 +60,7 @@
       <hr>
 
       <!-- Date/Time -->
-      <p>Posté le <?= date('d/m/Y à h\hi', strtotime($res[0]['date'])) ?> </p>
+      <p>Posté le <?= date('d/m/Y à H\hi', strtotime($res[0]['date'])) ?> </p>
 
       <hr>
 
