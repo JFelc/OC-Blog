@@ -5,13 +5,14 @@ require_once 'Database.php';
 class User extends Database
 {
 
-
+    //Fetch all Users
     function selectUsers()
     {
         $db = new Database();
         $query = $db->prepare('SELECT * FROM utilisateur ORDER BY ASC');
         return $query;
     }
+    //Fetch a specific User
     function selectUserById($idUser)
     {
         $db = new Database();
@@ -19,6 +20,7 @@ class User extends Database
         $query = $db->prepare('SELECT * FROM utilisateur WHERE idUtilisateur =:idUser', $values);
         return $query;
     }
+    //Fetch a specific User, using his email and Password
     function selectUserByEmail($emailUser,$passwd)
     {
         $db = new Database();
@@ -27,6 +29,7 @@ class User extends Database
         $return =  password_verify($passwd,$query[0]['password']) ? $query[0] : false;
         return $return;
     }
+    //Update User profile
     function updateUser($idUser, $field, $valueField)
     {
         $db = new Database();
@@ -35,7 +38,7 @@ class User extends Database
         $query = $db->prepare('UPDATE utilisateur SET '.$field.' =:valueField WHERE idUtilisateur =:idUser', $values);
         return $query;
     }
-
+    //Change/Update password
     function updatePassword($idUser,$oldPasswd,$newPasswd)
     {
         $db = new Database();
@@ -50,28 +53,27 @@ class User extends Database
         return $return;
         
     }
-    
+    // Add a new User, checking for existing emails before creation
     function addUser($vals = array())
     {
         $db = new Database();
-        //vérif que User existe déjà
         $email = $db->prepare('SELECT email FROM utilisateur WHERE email =:email', array(':email'=>$vals[':email']));
-        /*if($vals[':email'] == $email){
-            //erreur user déjà existant
+        if($vals[':email'] == $email){
+            echo 'Email déjà utlisé';
         }
-        else {*/
+        else {
             $query = $db->prepare('INSERT INTO utilisateur (nom,email,password) VALUES (:name,:email,:password)',$vals);
-        //}
+        }
         
     }
+    //Delete specific User
     function deleteUser($idUser)
     {
         $db = new Database();
         $values[':idUser'] = $idUser;
-        //check if admin
         $query = $db->prepare('DELETE FROM utilisateur WHERE idUtilisateur = :idUser', $values);
     }
-
+    //Function to hash User Password
     function cryptPasswd($data){
         $salt = password_hash($data,PASSWORD_BCRYPT);
         $return = crypt($data,$salt);
