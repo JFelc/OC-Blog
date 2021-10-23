@@ -6,7 +6,7 @@ require_once "./model/Comments.php";
 
 class Controller
 {
-    public $rewritebase = "/OC-Blog3/";
+    public $rewritebase = "/OC-Blog/";
 
     public function __construct($url = "", $qs = "")
     {
