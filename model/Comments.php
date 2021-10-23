@@ -4,12 +4,20 @@ require_once 'Database.php';
 
 Class Comments extends Database
 {
-    //Fetch the comments of a specific post
+    //Fetch the comments of a specific post (only valid ones)
     function selectCommentsOfPost($postId)
     {
         $db = new Database();
         $values[':idPost'] = $postId;
         $query = $db->prepare('SELECT C.*,U.nom,U.photo FROM commentaire as C JOIN utilisateur as U WHERE C.Post_idPost =:idPost AND U.idUtilisateur = Utilisateur_idUtilisateur AND C.status = 1', $values);
+        return $query;
+    }
+    //Fetch all comments on a post
+    function selectCommentsOfPostAdmin($postId)
+    {
+        $db = new Database();
+        $values[':idPost'] = $postId;
+        $query = $db->prepare('SELECT C.*,U.nom,U.photo FROM commentaire as C JOIN utilisateur as U WHERE C.Post_idPost =:idPost AND U.idUtilisateur = Utilisateur_idUtilisateur', $values);
         return $query;
     }
     //Add a new comment to a specific post
