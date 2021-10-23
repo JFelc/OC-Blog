@@ -98,7 +98,7 @@
                         <h6 class="fw-bold mb-1"><?= $commValue[$key]['nom'] ?></h6>
                         <div class="d-flex align-items-center mb-3">
                           <p class="mb-0">
-                            <?= date('d/m/Y à h\hi', strtotime($commValue[$key]['date'])) ?>
+                            <?= date('d/m/Y à H\hi', strtotime($commValue[$key]['date'])) ?>
                           </p>
                         </div>
                         <p class="mb-0">

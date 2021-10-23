@@ -53,10 +53,10 @@ class Controller
         if(isset($_POST['contact']))
         {
             $_SESSION['contact'] = true;
-            $fName = isset($_POST['fName']) ? $_POST['fName'] : '';
-            $lName = isset($_POST['lName']) ? $_POST['lName'] : '';
-            $contactMail = isset($_POST['contactMail']) ? $_POST['contactMail'] : '';
-            $message = isset($_POST['contactMessage']) ? $_POST['contactMessage'] : '';
+            $fName = filter_input(INPUT_POST, 'fName') || '';
+            $lName = filter_input(INPUT_POST, 'lName') || '';
+            $contactMail = filter_input(INPUT_POST, 'contactMail') || '';
+            $message = filter_input(INPUT_POST, 'contactMessage') || '';
             
             //mail('julien.felici@gmail.com', 'Test Mail', $message, $fName);
         }
@@ -79,29 +79,29 @@ class Controller
 
         if (isset($_POST['updateStatusPost'])) 
         {
-            $res = $post->clean($_POST['updateStatusPost']);
+            $res = $post->clean(filter_input(INPUT_POST, 'updateStatusPost'));
             $post->updateStatusPost($res);
         }
         if (isset($_POST['updateStatusComm'])) 
         {
-            $res = $comm->clean($_POST['updateStatusComm']);
+            $res = $comm->clean(filter_input(INPUT_POST, 'updateStatusComm'));
             $comm->updateStatusComment($res);
         }
         if (isset($_POST['categoryCreate'])) 
         {
-                isset($_POST['categoryInput']) ? $res = $post->clean($_POST['categoryInput']): '';
+                $res = $post->clean(filter_input(INPUT_POST, 'categoryInput'));
                 $post->addCategory($res);
         }
 
         if (isset($url[3]) && $url[3] == 'posts') 
         {
             $allPosts = $post->selectAllPostsAdmin();
-                isset($_POST['updateStatusPostAdmin']) ? $post->updateStatusPost($_POST['updateStatusPostAdmin']): '';
+            $post->updateStatusPost(filter_input(INPUT_POST, 'updateStatusPostAdmin'));
         }
         if (isset($url[3]) && $url[3] == 'comms') 
         {
             $allComms = $comm->selectAllCommentsAdmin();
-                isset($_POST['updateStatusCommAdmin']) ? $comm->updateStatusComment($_POST['updateStatusCommAdmin']): '';
+            $comm->updateStatusComment(filter_input(INPUT_POST, 'updateStatusCommAdmin'));
         }
 
         $postsAdmin = $post->selectPostsAdmin();
@@ -123,10 +123,10 @@ class Controller
         $userId = $_SESSION['connectedUser'];
         if (isset($url[3]) && $url[3] == 'changePassword') 
         {
-            if (isset($_POST['updatePasswd'])) 
+            if (isset($_POST['updatePasswd']))
             {
-                $oldPasswd = isset($_POST['oldPasswd']) ? $user->clean($_POST['oldPasswd']) : '';
-                $newPasswd = isset($_POST['newPasswd']) ? $user->clean($_POST['newPasswd']) : '';
+                $oldPasswd =  $user->clean(filter_input(INPUT_POST, 'oldPasswd'));
+                $newPasswd = $user->clean(filter_input(INPUT_POST,'newPasswd'));
                 $passwd = $user->cryptPasswd($newPasswd);
                 $res2 = $user->updatePassword($_SESSION['connectedUser'], $oldPasswd, $passwd);
             }
@@ -160,9 +160,9 @@ class Controller
             if (isset($_POST['subscribe'])) 
             {
                 $_user = new User();
-                $name = isset($_POST['name']) ? $_user->clean($_POST['name']) : '';
-                $email = isset($_POST['email']) ? $_user->clean($_POST['email']): '';
-                $pass = isset($_POST['passwd']) ? $_user->clean($_POST['passwd']): '';
+                $name =  $_user->clean(filter_input(INPUT_POST, 'name'));
+                $email =  $_user->clean(filter_input(INPUT_POST, 'email'));
+                $pass =  $_user->clean(filter_input(INPUT_POST, 'passwd'));
                 $passwd = $_user->cryptPasswd($pass);
                 $createdUser = $_user->addUser(array(':name' => $name, ':email' => $email, ':password' => $passwd));
             }
@@ -170,8 +170,8 @@ class Controller
             if (isset($_POST['login'])) 
             {
                 $_user = new User();
-                $email = isset($_POST['email']) ? $_user->clean($_POST['email']): '';
-                $passwd = isset($_POST['passwd']) ? $_user->clean($_POST['passwd']): '';
+                $email = $_user->clean(filter_input(INPUT_POST, 'email'));
+                $passwd = $_user->clean(filter_input(INPUT_POST, 'passwd'));
                 $connectedUser = $_user->selectUserByEmail($email, $passwd);
                 $_SESSION['connectedUser'] = $connectedUser['idUtilisateur'];
                 $_SESSION['name'] = $connectedUser['nom'];
@@ -191,12 +191,12 @@ class Controller
             $post = new Post();
             $categories = $post->getCategories();
             if (isset($_POST['postCreate'])) {
-                $auteur = isset($_POST['name']) ? $post->clean($_POST['name']): '';
-                $titre = isset($_POST['title']) ? $post->clean($_POST['title']) : '';
-                $contenu = isset($_POST['content']) ? $post->clean($_POST['content']) : '';
-                $description = isset($_POST['description']) ? $post->clean($_POST['description']) : '';
+                $auteur =  $post->clean(filter_input(INPUT_POST, 'name'));
+                $titre =  $post->clean(filter_input(INPUT_POST, 'title'));
+                $contenu = $post->clean(filter_input(INPUT_POST, 'content'));
+                $description = $post->clean(filter_input(INPUT_POST, 'description'));
                 $uploads = 'uploads/';
-                $category = isset($_POST['category']) ? $post->clean($_POST['category']) : '';
+                $category =  $post->clean(filter_input(INPUT_POST, 'category'));
 
                 $uploadFile = $uploads . basename($_FILES['image']['name']);
                 if (move_uploaded_file($_FILES['image']['tmp_name'], $uploadFile)) 
@@ -232,15 +232,16 @@ class Controller
         $idUser = $_SESSION['connectedUser'];
         if (isset($_POST['addComment'])) {
             $comment = new Comments();
-            $contenu = isset($_POST['commentValue']) ? $comment->clean($_POST['commentValue']): '';
+            $contenu = $comment->clean(filter_input(INPUT_POST,'commentValue'));
             $res = $comment->addCommentToPost($comment->clean($idPost), $contenu, $idAuthor, $idUser, $category);
+            header("location:" . $this->rewritebase . "post/" . $idPost);
         }
         if (isset($_POST['editPost'])) {
             $post = new Post();
-            $titre = isset($_POST['title']) ? $post->clean($_POST['title']): '';
-            $contenu = isset($_POST['content']) ? $post->clean($_POST['content']): '';
-            $description = isset($_POST['description']) ? $post->clean($_POST['description']): '';
-            $category = isset($_POST['category']) ? $post->clean($_POST['category']) : '';
+            $titre =  $post->clean(filter_input(INPUT_POST,'title'));
+            $contenu = $post->clean(filter_input(INPUT_POST,'content'));
+            $description = $post->clean(filter_input(INPUT_POST,'description'));
+            $category = $post->clean(filter_input(INPUT_POST,'category'));
             if (isset($_FILES['image'])) {
                 $photo = $_FILES['image']['name'];
             } else {
@@ -277,7 +278,12 @@ class Controller
 
         }
         $comment = new Comments();
-        $commValue = $comment->selectCommentsOfPost($idPost);
+        if($_SESSION['role'] == 0){
+            $commValue = $comment->selectCommentsOfPost($idPost);
+        } else {
+            $commValue = $comment->selectCommentsOfPostAdmin($idPost);
+        }
+        
         require_once "./includes/header.php";
         require_once "./view/post.php";
         require_once "./includes/footer.php";
