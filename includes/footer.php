@@ -5,10 +5,10 @@
     <a href="<?= $this->rewritebase; ?>uploads/CVJFELICIANO_09_2021.pdf" target="blank"> <i class="far fa-file-pdf"></i> </a>
     </div>
     <div class="col-2 h4">
-    <a href="https://www.linkedin.com/in/julien-feliciano/"> <i class="fab fa-linkedin"></i> </a>
+    <a href="https://www.linkedin.com/in/julien-feliciano/" target="blank"> <i class="fab fa-linkedin"></i> </a>
     </div>
     <div class="col-2 h4">
-    <a class="link-dark" href="https://github.com/JFelc"><i class="fab fa-github"></i></a>
+    <a class="link-dark" href="https://github.com/JFelc" target="blank" ><i class="fab fa-github"></i></a>
     </div>
   
  
