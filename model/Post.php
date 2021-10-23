@@ -55,7 +55,7 @@ class Post extends Database
         $query = $db->prepare('INSERT INTO post (auteur,titre,contenu,description,photo,Utilisateur_idUtilisateur,Categorie_idCategorie) VALUES (:auteur,:titre,:contenu,:description,:photo,:Utilisateur_idUtilisateur, :Categorie_idCategorie)', $vals);
         return $query;
     }
-    //Update/edit an existing post
+    //Edit an existing post
     function updatePost($vals = array())
     {
         $db = new Database();

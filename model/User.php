@@ -38,7 +38,7 @@ class User extends Database
         $query = $db->prepare('UPDATE utilisateur SET '.$field.' =:valueField WHERE idUtilisateur =:idUser', $values);
         return $query;
     }
-    //Change/Update password
+    //Update password
     function updatePassword($idUser,$oldPasswd,$newPasswd)
     {
         $db = new Database();
