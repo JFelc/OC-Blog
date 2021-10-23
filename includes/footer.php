@@ -2,7 +2,7 @@
   <div class="container">
   <div class="row text-center">
     <div class="col-2 h4 offset-3">
-    <a href="<?= $this->rewritebase; ?>uploads/CVJFELICIANO_07_2020.pdf" target="blank"> <i class="far fa-file-pdf"></i> </a>
+    <a href="<?= $this->rewritebase; ?>uploads/CVJFELICIANO_09_2021.pdf" target="blank"> <i class="far fa-file-pdf"></i> </a>
     </div>
     <div class="col-2 h4">
     <a href="https://www.linkedin.com/in/julien-feliciano/"> <i class="fab fa-linkedin"></i> </a>
