@@ -60,3 +60,7 @@ body {
   width: 50%;
   display: flex;
 }
+
+.logo {
+  width: 35%;
+}
