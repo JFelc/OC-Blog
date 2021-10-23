@@ -1,6 +1,6 @@
 <div class="container">
 <?php if (isset($url[4]) && $url[4] == 'edit') {?>
-  <div class="container">
+  <div class="container text-center">
       <div class="row">
       <form class="col-9 mx-auto" enctype="multipart/form-data" method="POST">
         <h1 class="h3 mb-3 fw-normal">Édition du Post</h1>
