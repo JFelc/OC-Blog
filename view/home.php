@@ -70,7 +70,7 @@
         <div class="row">
           <div class="col mx-auto text-center">
             <p>
-              Votre message a bien enregistré, voici son contenu: </p>
+              Votre message a bien été enregistré, voici son contenu: </p>
               <p><?= $lName.' '.$fName ?> </p>
               <p><?= $contactMail ?></p>
               <p><?= $message ?></p>
