@@ -18,7 +18,7 @@
       <label for="confirmPassword">Confirm Password</label>
     </div>
 
-    <button class="w-100 btn btn-lg btn-primary" name="updatePasswd" type="submit">Update</button>
+    <button class="w-100 btn btn-lg btn-primary" name="updatePasswd" type="submit">Mettre à jour</button>
   </form>
   <?php } else { ?>
   <form method="POST" enctype="multipart/form-data">
@@ -27,14 +27,15 @@
     <h1 class="h3 mb-3 fw-normal"><?= $res[0]['nom']?></h1>
 
     <div class="form-floating mb-4">
-      <a  href="<?php $this->rewritebase ?>profile/changePassword" name="passwd" class="btn btn-outline-primary" id="floatingPassword" placeholder="Password">Change password</a>
+      <a  href="<?php $this->rewritebase ?>profile/changePassword" name="passwd" class="btn btn-outline-primary" id="floatingPassword" placeholder="Password">Changer le mot de passe</a>
     </div>
     <div class="form-floating mb-4">
           <input type="file" id="image" name="image" accept="image/*">
     </div>
 
-    <button class="w-100 btn btn-lg btn-primary" name="updateProfile" type="submit">Update </button>
+    <button class="w-100 btn btn-lg btn-primary mb-4" name="updateProfile" type="submit">Mettre à jour </button>
     </div>
   </form>
+  <a class="w-100 btn btn-lg btn-primary" name="disconnect" href="<?= $this->rewritebase; ?>logout">Déconnexion</a>
   <?php } ?>
 </main>

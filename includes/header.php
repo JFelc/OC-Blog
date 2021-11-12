@@ -32,8 +32,8 @@
 <header>
   <div class="navbar navbar-dark bg-dark shadow-sm">
     <div class="container">
-      <a href="<?= $this->rewritebase; ?>" class="navbar-brand d-flex align-items-center">
-        <img class="logo" src="<?= $this->rewritebase; ?>uploads/logo.png">
+      <a href="<?= $this->rewritebase; ?>" class="navbar-brand logo d-flex align-items-center">
+      <i class="fa-2x fas fa-code"></i>
       </a>
       <?php require_once 'nav.php' ?>
     </div>

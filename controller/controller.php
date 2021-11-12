@@ -30,6 +30,8 @@ class Controller
             case 'login':
                 $this->login($url);
                 break;
+            case 'logout':
+                $this->logout();
             case 'post':
                 $this->post($url);
                 break;
@@ -53,10 +55,10 @@ class Controller
         if(isset($_POST['contact']))
         {
             $_SESSION['contact'] = true;
-            $fName = filter_input(INPUT_POST, 'fName') || '';
-            $lName = filter_input(INPUT_POST, 'lName') || '';
-            $contactMail = filter_input(INPUT_POST, 'contactMail') || '';
-            $message = filter_input(INPUT_POST, 'contactMessage') || '';
+            $fName = filter_input(INPUT_POST, 'fName');
+            $lName = filter_input(INPUT_POST, 'lName');
+            $contactMail = filter_input(INPUT_POST, 'contactMail');
+            $message = filter_input(INPUT_POST, 'contactMessage');
             
             //mail('julien.felici@gmail.com', 'Test Mail', $message, $fName);
         }
@@ -153,6 +155,15 @@ class Controller
     {
         require_once "./view/404.php";
     }
+    public function logout(){
+       $_SESSION['connectedUser'] = NULL;
+       $_SESSION['role'] = NULL;
+       $_SESSION['name'] = NULL;
+       unset($_SESSION['connectedUser']);
+       unset($_SESSION['role']);
+       unset($_SESSION['name']);
+       header("location:" . $this->rewritebase . "login");
+    }
     public function login($url)
     {
         if (isset($url[3]) && $url[3] == 'create') 
@@ -165,6 +176,9 @@ class Controller
                 $pass =  $_user->clean(filter_input(INPUT_POST, 'passwd'));
                 $passwd = $_user->cryptPasswd($pass);
                 $createdUser = $_user->addUser(array(':name' => $name, ':email' => $email, ':password' => $passwd));
+                if($createdUser === false){
+                    $error = 'Email déjà utilisé';
+                }
             }
         } else {
             if (isset($_POST['login'])) 
@@ -209,6 +223,9 @@ class Controller
                         ':photo' => $uploadFile, 
                         ':Utilisateur_idUtilisateur' => intval($_SESSION['connectedUser']), 
                         ':Categorie_idCategorie' => $category));
+                    if($newPost === false){
+                        $error = "Titre déjà utilisé";
+                    }
                 }
 
             }
@@ -229,7 +246,9 @@ class Controller
         $categories = $post->getCategories();
         $idAuthor = $res[0]['Utilisateur_idUtilisateur'];
         $category = $res[0]['Categorie_idCategorie'];
-        $idUser = $_SESSION['connectedUser'];
+        if(isset($_SESSION['connectedUser'])){
+            $idUser = $_SESSION['connectedUser'];
+        }
         if (isset($_POST['addComment'])) {
             $comment = new Comments();
             $contenu = $comment->clean(filter_input(INPUT_POST,'commentValue'));
@@ -275,10 +294,13 @@ class Controller
                     );
                
             }
+            if($newPost === false){
+                $error = "Titre déjà utilisé";
+            }
 
         }
         $comment = new Comments();
-        if($_SESSION['role'] == 0){
+        if(isset($_SESSION['role']) && ($_SESSION['role']) == 0){
             $commValue = $comment->selectCommentsOfPost($idPost);
         } else {
             $commValue = $comment->selectCommentsOfPostAdmin($idPost);

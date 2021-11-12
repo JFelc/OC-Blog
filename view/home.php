@@ -14,7 +14,7 @@
 <div class="container">
 <div class="row">
   <?php foreach ($res as $key => $value) { ?>
-      <div class="col-4 mb-4">
+      <div class="col-md-4 mb-4 col-sm-12">
       <a href="<?= $this->rewritebase . 'post/' . $res[$key]['idPost']; ?>">
         <div class="card">
           <?php if (isset($res[$key]['photo']) && $res[$key]['photo'] != null) { ?>
@@ -38,26 +38,26 @@
 
   <div class="album py-5 bg-light">
     <div class="container">
-      <form method="POST">
-        <div class="form-group col-6 mx-auto">
+      <form method="POST" enctype="multipart/form-data">
+        <div class="form-group col-md-6 col-xs-10 mx-auto">
           <div class="row">
             <div class="col-12 py-3">
-              <input type="text" class="form-control" name="lName" placeholder="Nom">
+              <input type="text" class="form-control" name="lName" placeholder="Nom" required>
             </div>
             <div class="col-12 py-3">
-              <input type="text" class="form-control" name="fName" placeholder="Prénom">
+              <input type="text" class="form-control" name="fName" placeholder="Prénom" required>
             </div>
           </div>
         </div>
-        <div class="form-group col-6 mx-auto py-3">
-          <input type="email" class="form-control" name="contactMail" placeholder="Entrez l'adresse mail">
+        <div class="form-group col-md-6 col-xs-10 mx-auto py-3">
+          <input type="email" class="form-control" name="contactMail" placeholder="Entrez l'adresse mail" required>
         </div>
-        <div class="form-group col-6 mx-auto py-3">
-          <textarea class="form-control" placeholder="Message" name="contactMessage"></textarea>
+        <div class="form-group col-md-6 col-xs-10 mx-auto py-3">
+          <textarea class="form-control" placeholder="Message" name="contactMessage" required></textarea>
         </div>
-        <div class=" form-group col-6 mx-auto">
+        <div class=" form-group col-md-6 col-xs-10 mx-auto">
           <div class="text-end">
-            <button type="submit" class="btn btn-primary" name="contact">Submit</button>
+            <button type="submit" class="btn btn-primary" name="contact">Envoyer</button>
           </div>
         </div>
       </form>

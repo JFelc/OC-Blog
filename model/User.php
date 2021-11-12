@@ -57,9 +57,10 @@ class User extends Database
     function addUser($vals = array())
     {
         $db = new Database();
-        $email = $db->prepare('SELECT email FROM utilisateur WHERE email =:email', array(':email'=>$vals[':email']));
-        if($vals[':email'] == $email){
-            echo 'Email déjà utlisé';
+        $values[':email'] = $vals[':email'];
+        $email = $db->prepare('SELECT email FROM utilisateur WHERE email =:email', $values);
+        if(count($email) > 0){
+            return false;
         }
         else {
             $query = $db->prepare('INSERT INTO utilisateur (nom,email,password) VALUES (:name,:email,:password)',$vals);

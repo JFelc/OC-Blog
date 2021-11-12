@@ -4,6 +4,9 @@
       <div class="row">
       <form class="col-9 mx-auto" enctype="multipart/form-data" method="POST">
         <h1 class="h3 mb-3 fw-normal">Édition du Post</h1>
+        <?php if(isset($error)&&($error != '')){ ?>
+                <p class="text-danger h4"><?= $error ?></p>
+      <?php  } ?>
       <div class="row">
         <div class="form-group col py-3">
           <input type="text" name="title" class="form-control" id="floatingTitle" placeholder="Titre" style="background-image: url(&quot;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAASCAYAAABSO15qAAAAAXNSR0IArs4c6QAAAPhJREFUOBHlU70KgzAQPlMhEvoQTg6OPoOjT+JWOnRqkUKHgqWP4OQbOPokTk6OTkVULNSLVc62oJmbIdzd95NcuGjX2/3YVI/Ts+t0WLE2ut5xsQ0O+90F6UxFjAI8qNcEGONia08e6MNONYwCS7EQAizLmtGUDEzTBNd1fxsYhjEBnHPQNG3KKTYV34F8ec/zwHEciOMYyrIE3/ehKAqIoggo9inGXKmFXwbyBkmSQJqmUNe15IRhCG3byphitm1/eUzDM4qR0TTNjEixGdAnSi3keS5vSk2UDKqqgizLqB4YzvassiKhGtZ/jDMtLOnHz7TE+yf8BaDZXA509yeBAAAAAElFTkSuQmCC&quot;); background-repeat: no-repeat; background-attachment: scroll; background-size: 16px 18px; background-position: 98% 50%;">
@@ -35,17 +38,19 @@
   </div>
 <?php } else {?>
   <!-- Page Heading/Breadcrumbs -->
-  <?php if ($res[0]['status'] != 0 || $_SESSION['role'] == 1) {?>
-    <?php if ($res[0]['Utilisateur_idUtilisateur'] == $_SESSION['connectedUser']) {?>
       <div class="row">
-        <div class="col-10">
+        <div class="col-md-10 col-xs-12">
           <h1 class="mt-4 mb-3"><?= $res[0]['titre'] ?>
           </h1>
         </div>
-        <div class="col-2">
+        <?php if ($res[0]['status'] != 0 || $_SESSION['role'] == 1) {?>
+    <?php if(isset($_SESSION['connectedUser'])){ ?> 
+    <?php if ($res[0]['Utilisateur_idUtilisateur'] == $_SESSION['connectedUser']) {?>
+        <div class="col-md-2 col-xs-12">
         <a class="btn btn-primary d-block mt-4 mb-3 pt-2" href="<?= $this->rewritebase ?>post/<?= $res[0]['idPost'] ?>/edit">Editer</a>
         </div>
       </div>
+    <?php }?>
     <?php }?>
  
 
@@ -83,7 +88,7 @@
                       <label for="commentText" class="form-label">Ajouter un commentaire</label>
                       <textarea class="form-control" id="commentText" name="commentValue" rows="3"></textarea>
                     </div>
-                    <button type="submit" class="btn btn-primary" name="addComment">Submit</button>
+                    <button type="submit" class="btn btn-primary" name="addComment">Envoyer</button>
                   </form>
                 <?php }?>
                 <?php foreach ($commValue as $key => $value) {?>

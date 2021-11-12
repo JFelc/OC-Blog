@@ -52,20 +52,35 @@ class Post extends Database
     function addPost($vals = array())
     {
         $db = new Database();
-        $query = $db->prepare('INSERT INTO post (auteur,titre,contenu,description,photo,Utilisateur_idUtilisateur,Categorie_idCategorie) VALUES (:auteur,:titre,:contenu,:description,:photo,:Utilisateur_idUtilisateur, :Categorie_idCategorie)', $vals);
-        return $query;
+        $values[':titre'] = $vals[':titre'];
+        $titre = $db->prepare('SELECT titre FROM post WHERE titre =:titre',$values);
+        if(count($titre) <= 0){
+            $query = $db->prepare('INSERT INTO post (auteur,titre,contenu,description,photo,Utilisateur_idUtilisateur,Categorie_idCategorie) VALUES (:auteur,:titre,:contenu,:description,:photo,:Utilisateur_idUtilisateur, :Categorie_idCategorie)', $vals);
+            return $query;
+        } else {
+            return false;
+        }
+       
     }
     //Edit an existing post
     function updatePost($vals = array())
     {
         $db = new Database();
-        if(isset($vals[':photo'])){
-            $query = $db->prepare('UPDATE post SET titre =:titre, contenu =:contenu, description =:description, photo =:photo, status=0, Categorie_idCategorie =:Categorie_idCategorie WHERE idPost =:idPost', $vals);
+        $values[':titre'] = $vals[':titre'];
+        $values[':idPost'] = $vals[':idPost'];
+        $titre = $db->prepare('SELECT titre FROM post WHERE titre =:titre AND idPost !=:idPost', $values);
+        if(count($titre) <= 0){
+
+            if(isset($vals[':photo'])){
+                $query = $db->prepare('UPDATE post SET titre =:titre, contenu =:contenu, description =:description, photo =:photo, status=0, Categorie_idCategorie =:Categorie_idCategorie WHERE idPost =:idPost', $vals);
+            } else {
+                $query = $db->prepare('UPDATE post SET titre =:titre, contenu =:contenu, description =:description, status=0, Categorie_idCategorie =:Categorie_idCategorie WHERE idPost =:idPost', $vals);
+            }
+            return $query;
         } else {
-            $query = $db->prepare('UPDATE post SET titre =:titre, contenu =:contenu, description =:description, status=0, Categorie_idCategorie =:Categorie_idCategorie WHERE idPost =:idPost', $vals);
+            return false;
         }
-        
-        return $query;
+       
     }
     //Delete a post
     function deletePost($idPost)
