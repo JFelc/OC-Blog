@@ -62,5 +62,5 @@ body {
 }
 
 .logo {
-  width: 35%;
+  max-width: 70px;
 }

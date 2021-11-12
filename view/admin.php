@@ -5,9 +5,9 @@
   <div class="row">
         <span class="h5 font-weight-bold"> Posts en attente de review </span>
         <?php foreach ($allPosts as $key => $value) { ?>
-          <div class="col-4">
+          <div class="col-md-4 col-xs-12">
           <a href="<?= $this->rewritebase . 'post/' . $allPosts[$key]['idPost']; ?>"><p><?= $allPosts[$key]['titre']?></p></a>
-          <button type="submit" class="btn btn-primary" name="updateStatusPostAdmin" value="<?= $allPosts[$key]['idPost']?>"> Update </button>
+          <button type="submit" class="btn btn-primary" name="updateStatusPostAdmin" value="<?= $allPosts[$key]['idPost']?>"> Mettre à jour </button>
         </div>
         <?php } ?>
       </div>
@@ -19,9 +19,9 @@
   <div class="row">
         <span class="h5 font-weight-bold"> Commentaires en attente de review </span>
         <?php foreach ($allComms as $key => $value) { ?>
-          <div class="col-4">
+          <div class="col-md-4 col-xs-12">
           <a href="<?= $this->rewritebase . 'post/' . $allComms[$key]['Post_idPost']; ?>"><p><?= $allComms[$key]['nom']?></p></a>
-          <button type="submit" class="btn btn-primary" name="updateStatusCommAdmin" value="<?= $allComms[$key]['idCommentaire']?>"> Update </button>
+          <button type="submit" class="btn btn-primary" name="updateStatusCommAdmin" value="<?= $allComms[$key]['idCommentaire']?>"> Mettre à jour </button>
         </div>
         <?php } ?>
       </div>
@@ -33,9 +33,9 @@
       <div class="row">
         <span class="h5 font-weight-bold"> Posts en attente de review </span>
         <?php foreach ($postsAdmin as $key => $value) { ?>
-          <div class="col-4">
+          <div class="col-md-4 col-xs-12">
           <a href="<?= $this->rewritebase . 'post/' . $postsAdmin[$key]['idPost']; ?>"><p><?= $postsAdmin[$key]['titre']?></p></a>
-          <button type="submit" class="btn btn-primary" name="updateStatusPost" value="<?= $postsAdmin[$key]['idPost']?>"> Update </button>
+          <button type="submit" class="btn btn-primary" name="updateStatusPost" value="<?= $postsAdmin[$key]['idPost']?>"> Mettre à jour </button>
         </div>
         <?php } ?>
         <div class="col-4 mt-3 pt-4">
@@ -49,9 +49,9 @@
       <div class="row">
         <span class="h5 font-weight-bold"> Commentaires en attente de review </span>
         <?php foreach ($commsAdmin as $key => $value) { ?>
-          <div class="col-4">
+          <div class="col-md-4 col-xs-12">
           <a href="<?= $this->rewritebase . 'post/' . $commsAdmin[$key]['Post_idPost']; ?>"><p><?= $commsAdmin[$key]['nom']?></p></a>
-          <button type="submit" class="btn btn-primary" name="updateStatusComm" value="<?= $commsAdmin[$key]['idCommentaire']?>"> Update </button>
+          <button type="submit" class="btn btn-primary" name="updateStatusComm" value="<?= $commsAdmin[$key]['idCommentaire']?>"> Mettre à jour </button>
         </div>
         <?php } ?>
         <div class="col-4 mt-3 pt-4">
@@ -62,7 +62,7 @@
 
 <form method="POST">
   <div class="row">
-    <div class="col-2">
+    <div class="col-md-2 col-xs-10">
   <label for="categoryInput">Créer une catégorie de Post</label>
   <input type="text" required class="form-control mb-2" name="categoryInput">
   <button type="submit" class="btn btn-primary mb-2" name="categoryCreate"> Créer une catégorie </button>
